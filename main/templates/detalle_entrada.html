@@ -1,0 +1,33 @@
+<div class="modal fade" id="modal-detalle" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{{entrada.correlativo}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-header">
+                        Detalle:
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Correlativo : {{entrada.correlativo}}</li>
+                        <li class="list-group-item">Tipo : {{entrada.tipo}}</li>
+                        <li class="list-group-item">Hora Ingreso: {{entrada.hora_ingreso}}</li>
+                        <li class="list-group-item">Placa : {{entrada.num_placa}}</li>
+                        <li class="list-group-item">Tiempo estimado (horas) : {{entrada.tiempo_estimado}}</li>
+                        <li class="list-group-item">Nombre y dirección : {{entrada.visitado}} | {{entrada.direccion}}</li>
+                        <li class="list-group-item">Estado : {{entrada.estado}}</li>
+                        <li class="list-group-item">Creador : {{entrada.creador}}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

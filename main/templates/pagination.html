@@ -1,0 +1,36 @@
+<div class="row">
+    <div class="col-md-12">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                {% if listado.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{listado.previous_page_number}}&search={{search}}"
+                        tabindex="-1">Anterior</a>
+                </li>
+                {% endif %}
+
+                {% for pg in page_range %}
+                {% if listado.number == pg %}
+                <li class="page-item"><a class="page-link colorPaginacion" href="?page={{pg}}&search={{search}}">
+                        <b>{{pg}}</b> </a></li>
+                {% else %}
+                <li class="page-item"><a class="page-link" href="?page={{pg}}&search={{search}}">
+                        {{pg}}</a></li>
+                {% endif %}
+                {% endfor %}
+                {% if listado.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{listado.next_page_number}}&search={{search}}">Siguiente</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+    <div class="col-md-12 text-center">
+        <p>
+            <span>
+                <b>{{totaldatos}} Registros</b>
+            </span>
+        </p>
+    </div>
+</div>

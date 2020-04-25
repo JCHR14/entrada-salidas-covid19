@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+
+{% block title %} Entradas | Goascorán COVID-19{% endblock title %}
+
+{% block content %}
+  <div class="mt-4 mb-4">
+    <h1 style="font-size: 1.3em;"> Registrar nueva entrada </h1>
+
+    <form action="" method="POST" id="frm-entrada" autocomplete="off" >
+      <div class="card">
+        <div class="card-header">
+          <h3>Generales</h3>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Tipo Entrada:</label>
+            <select name="tipo" id="id-select-tipo" required class="form-control">
+              <option value="">Seleccione una opción</option>
+              <option value="Visitante">Visitante</option>
+              <option value="Repartidor">Repartidor</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Placa Vehículo:</label>
+            <input type="text" class="form-control" placeholder="Placa de vehículo" name="placaVehiculo">
+          </div>
+
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Tiempo estimado (horas) :</label>
+            <input type="number" class="form-control" required placeholder="Tiempo que estará dentro del pueblo"
+              name="tiempoEstimado">
+          </div>
+
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Número de personas:</label>
+            <input type="number" class="form-control" required placeholder="Número de personas que ingresarán"
+              name="numPersonas">
+          </div>
+    
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Nombre Visitado:</label>
+            <input type="text" class="form-control" required placeholder="Nombre de la persona que visita"
+              name="nombreVisitado" id="idnombreVisitado">
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Dirección:</label>
+            <textarea name="direccion" id="direccion" class="form-control" id="" style="width: 100%;" rows="2" required></textarea>
+          </div>
+        </div>
+      </div>
+      <br>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Personas</h3>
+        </div>
+        <div class="card-body">
+          <div id="div-personas">
+            <div class="row totales">
+              <div class="col-md-12">
+                <h4 class="text-center" ><span class="badge badge-pill badge-primary">1</span></h4>
+                <div class="form-group">
+                  <label for="recipient-name" class="col-form-label">Nombre Visitante:</label>
+                  <input type="text" class="form-control" required placeholder="Nombre de la persona que va a ingresar"
+                    name="nombreVisitante[]">
+                </div>
+                <div class="form-group">
+                  <label for="recipient-name" class="col-form-label">Identificación:</label>
+                  <input type="text" class="form-control" required placeholder="Número de Identidad o pasaporte"
+                    name="identificacion[]">
+                </div>
+              </div>
+            </div>
+    
+          </div>
+        </div>
+        <div class="card-footer ">
+          <button type="button" class="btn btn-dark float-right" id="id-add-persona">Agregar Persona</button>
+        </div>
+      </div>
+      <hr>
+      <button type="submit" class="btn btn-primary btn-block" id="btn-submit-entrada" >Guardar</button>
+    </form>
+    {% include "detalle_entrada.html" %}
+{% endblock content %}
+
+{% block js %}
+  <script>
+    $(document).ready(() => {
+      $(document).on('change', '#id-select-tipo', function(){
+        if($(this).val() === 'Repartidor'){
+          $('#idnombreVisitado').val('No aplica')
+          $('#direccion').val('No aplica') 
+        }
+      });
+      if('{{ status}}' == 'True'){
+        $('#modal-detalle').modal('show');
+      }
+
+    })
+  </script>
+  <script>
+    $(document).on('click', '#id-add-persona', function () {
+      let newValue = getNewValue()
+      let data = ''
+      data += '<div class="row totales">'
+      data += '    <div class="col-md-12">'
+      data += '    <hr>'
+      data += '    <h4 class="text-center" ><span class="badge badge-pill badge-primary deleted">'+ newValue +'</span></h4>'
+      data += '    <div class="form-group">'
+      data += '        <label for="recipient-name" class="col-form-label">Nombre Visitante:</label>'
+      data += '        <input type="text" class="form-control" required placeholder="Nombre de la persona que va a ingresar" name="nombreVisitante[]"> '
+      data += '    </div>'
+      data += '    <div class="form-group">'
+      data += '        <label for="recipient-name" class="col-form-label">Identificación:</label>'
+      data += '        <input type="text" class="form-control" required placeholder="Número de Identidad o pasaporte"name="identificacion[]">'
+      data += '    </div>'
+      data += '    </div>'
+      data += '</div>'
+      $('#div-personas').append(data);
+    });
+
+
+    let getNewValue = () => {
+      let newNumber = $('.totales').length
+      return newNumber + 1
+    }
+
+
+    $(document).on('click', '.deleted', function(){
+      if(confirm('¿Desea eliminar persona seleccionada?')){
+        $(this).closest('div.totales').remove()
+        reOrganiceValues()
+
+      }
+    })
+
+    let reOrganiceValues = () =>{
+      let counter = 1;
+      $.each( $('.totales'), function(key, val){
+        $(this).find('span.badge-primary').text(counter)
+        counter += 1;
+      } )
+    }
+
+
+  </script>
+{% endblock js %}
+
