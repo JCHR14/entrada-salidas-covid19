@@ -28,7 +28,6 @@ def entradas(request):
                 today_min = datetime.datetime.combine(datetime.date.today(), datetime.time.min)
                 today_max = datetime.datetime.combine(datetime.date.today(), datetime.time.max)
                 num = len(Entrada.objects.filter(fecha_creacion__range=(today_min, today_max))) + 1
-
                 ent = Entrada()
                 ent.correlativo = '{}-{}'.format(str(datetime.date.today()), num)
                 ent.tiempo_estimado = request.POST.get('tiempoEstimado')
@@ -37,6 +36,7 @@ def entradas(request):
                 ent.direccion = request.POST.get('direccion')
                 ent.num_placa = request.POST.get('placaVehiculo')
                 ent.num_personas = request.POST.get('numPersonas')
+                ent.repartidor = Repartidor.objects.get(pk = request.POST.get('repartidor')) if request.POST.get('tipo') == 'Repartidor' else None
                 ent.creador = request.user
                 ent.modificador = request.user
                 ent.save() 
@@ -54,15 +54,21 @@ def entradas(request):
                     request, 'Entrada registrada con éxito.')
                 ctx = {
                     'entrada': ent,
-                    'status': True
+                    'status': True,
+                    'repartidores': Repartidor.objects.all()
                 }
             except Exception as e:
                 messages.error(
                     request, 'No se pudo realizar el ingreso, error:{}'.format(e))
-                ctx = {'status':False}
+                ctx = {
+                    'status':False,
+                    'repartidores': Repartidor.objects.all()
+                }
             return render(request, 'entradas.html', ctx)
+
     ctx ={
-        'status':False
+        'status':False,
+        'repartidores': Repartidor.objects.all()
     }
     return render(request, 'entradas.html', ctx)
 

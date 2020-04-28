@@ -14,8 +14,10 @@
                         Detalle:
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Correlativo : {{entrada.correlativo}}</li>
                         <li class="list-group-item">Tipo : {{entrada.tipo}}</li>
+                        {% if entrada.tipo == 'Repartidor' %}
+                            <li class="list-group-item">Repartidor : {{entrada.repartidor}}</li>
+                        {% endif %}
                         <li class="list-group-item">Hora Ingreso: {{entrada.hora_ingreso}}</li>
                         <li class="list-group-item">Placa : {{entrada.num_placa}}</li>
                         <li class="list-group-item">Tiempo estimado (horas) : {{entrada.tiempo_estimado}}</li>

@@ -17,6 +17,8 @@ class Entrada(models.Model):
     direccion = models.TextField(max_length=200)
     num_placa = models.CharField(max_length=50)
     num_personas = models.SmallIntegerField()
+    repartidor = models.ForeignKey(
+        'Repartidor', models.DO_NOTHING, blank=True, null=True)
     creador = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
     modificador = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True, related_name='modifica_entrada')
     fecha_creacion = models.DateTimeField(blank=True, null=True, auto_now_add=True)
@@ -52,3 +54,14 @@ class Persona(models.Model):
         managed = True
         verbose_name = 'Persona'
         verbose_name_plural = 'Personas'
+
+class Repartidor(models.Model):
+    id = models.AutoField(primary_key=True)
+    nombre  = models.CharField(max_length=100)
+    def __str__(self):
+        return '{}'.format(self.nombre)
+    class Meta:
+        db_table = 'repartidor'
+        managed = True
+        verbose_name = 'Repartidor'
+        verbose_name_plural = 'Repartidores'

@@ -26,6 +26,16 @@
           </div>
 
           <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Repartidor:</label>
+            <select name="repartidor" id="id-slc-repartidores" class="form-control" >
+              <option value="">Seleccione un opción</option>
+              {% for x in repartidores %}
+                <option value="{{x.pk}}">{{x.nombre}}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="form-group">
             <label for="recipient-name" class="col-form-label">Tiempo estimado (horas) :</label>
             <input type="number" class="form-control" required placeholder="Tiempo que estará dentro del pueblo"
               name="tiempoEstimado">
@@ -90,9 +100,19 @@
       $(document).on('change', '#id-select-tipo', function(){
         if($(this).val() === 'Repartidor'){
           $('#idnombreVisitado').val('No aplica')
-          $('#direccion').val('No aplica') 
+          $('#direccion').val('No aplica');
+          $('#id-slc-repartidores')
+            .attr('required', true)
+            .removeAttr('disabled')
+        }else{
+          $('#id-slc-repartidores')
+            .removeAttr('required')
+            .attr('disabled', true)
+          $('#idnombreVisitado').val('')
+          $('#direccion').val('');
         }
       });
+
       if('{{ status}}' == 'True'){
         $('#modal-detalle').modal('show');
       }
